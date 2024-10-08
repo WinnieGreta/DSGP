@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
     private InputAction pointAction;
     private Vector2 moveInput;
     [SerializeField] private float directVelocity;
-    private Rigidbody2D rb;
+    private Rigidbody2D _rigidbody2D;
+    private PolygonCollider2D _collider2D;
     
     void Start()
     {
@@ -22,7 +23,8 @@ public class PlayerController : MonoBehaviour
         agent.updateUpAxis = false;
         //actions = GetComponent<PlayerInput>().actions;
         //pointAction = actions.FindAction("Fire");
-        rb = GetComponent<Rigidbody2D>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _collider2D = GetComponent<PolygonCollider2D>();
     }
 
     void Update()
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
         // {
         //     Debug.Log("Mouse down");
         // }
-        rb.velocity = moveInput * directVelocity;
+        _rigidbody2D.velocity = moveInput * directVelocity;
         if (agent.enabled && Math.Abs(target.x - transform.position.x) <= 0.1 && Math.Abs(target.y - transform.position.y) <= 0.1)
         {
             Debug.Log("Reached destination");
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public void SetTarget(InputAction.CallbackContext context)
     {
         agent.enabled = true;
+        _collider2D.enabled = false;
         target = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         target.z = 0;
         agent.SetDestination(target);
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         agent.enabled = false;
+        _collider2D.enabled = true;
         moveInput = context.ReadValue<Vector2>();
     }
 }
