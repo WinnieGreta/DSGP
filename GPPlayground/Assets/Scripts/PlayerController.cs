@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     [SerializeField] private float directVelocity;
     private Rigidbody2D _rigidbody2D;
-    private PolygonCollider2D _collider2D;
+    private BoxCollider2D _collider2D;
     
     void Start()
     {
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         //actions = GetComponent<PlayerInput>().actions;
         //pointAction = actions.FindAction("Fire");
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _collider2D = GetComponent<PolygonCollider2D>();
+        _collider2D = GetComponent<BoxCollider2D>();
     }
 
     void Update()
